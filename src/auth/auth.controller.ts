@@ -1,14 +1,18 @@
 import {
   Body,
   Controller,
+  Get,
   Post,
   Req,
+  Res,
   UnauthorizedException,
+  UseGuards,
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/users/dto/create.user.dto';
 import { AuthService } from './auth.service';
 import { Request } from 'express';
 import { AuthPayloadDto } from 'src/users/dto/auth.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('auth')
 export class AuthController {
@@ -43,4 +47,15 @@ export class AuthController {
   // me(@Req() req) {
   //   return req.user;
   // }
+  @UseGuards(AuthGuard('google'))
+  @Get('google/login')
+  async googleAuth(@Req() req: Request) {
+    console.log('google details', req);
+  }
+  @UseGuards(AuthGuard('google'))
+  @Get('google/callback')
+  async googleAuthRedirect(@Req() req: Request) {
+    // Google sends user here after login
+    return req.user;
+  }
 }
