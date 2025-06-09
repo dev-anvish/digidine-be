@@ -6,6 +6,8 @@ import {
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from 'src/users/dto/create.user.dto';
+import { User } from 'src/users/schemas/user.schema';
+import { GoogleOauthDto } from 'src/users/dto/google.oauth.dto';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +16,10 @@ export class AuthService {
   async validateUser({ email, password }: { email: string; password: string }) {
     const user = await this.usersService.findByEmail(email);
     console.log('user', user);
-    if (!user) throw new UnauthorizedException();
+    if (!user || !user.password) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
     const isMatchingPassword = await bcrypt.compare(password, user?.password);
     console.log(
       'Comparing password',
@@ -40,5 +45,9 @@ export class AuthService {
     if (existing) throw new BadRequestException('Email already exists');
     const hash = await bcrypt.hash(dto.password, 10);
     return this.usersService.create({ ...dto, password: hash });
+  }
+
+  async googleOauthSignUp(googleData: GoogleOauthDto): Promise<User> {
+    return await this.usersService.findOrCreateGoogleUser(googleData);
   }
 }

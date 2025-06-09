@@ -3,13 +3,15 @@ import { Document } from 'mongoose';
 
 @Schema({ collection: 'users' })
 export class User {
-  @Prop({ required: true }) firstName: string;
-  @Prop({ required: true }) lastName: string;
-  @Prop({ required: true }) countryCode: string;
-  @Prop({ required: true }) mobileNo: string;
-  @Prop({ required: true }) businessName: string;
+  @Prop() firstName?: string;
+  @Prop() lastName?: string;
+  @Prop() countryCode?: string;
+  @Prop() mobileNo?: string;
+  @Prop() businessName?: string;
   @Prop({ required: true, unique: true }) email: string;
-  @Prop({ required: true }) password: string;
+  @Prop() password?: string;
+  @Prop() googleId?: string;
+  @Prop() picture?: string;
 }
 
 export type UserDocument = User & Document;

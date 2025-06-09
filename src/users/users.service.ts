@@ -29,4 +29,29 @@ export class UsersService {
   async findById(id: string): Promise<User | null> {
     return this.userModel.findById(id);
   }
+
+  async findOrCreateGoogleUser(googleData: {
+    email: string;
+    name: string;
+    picture: string;
+    accessToken: string;
+  }): Promise<User> {
+    let user = await this.userModel.findOne({ email: googleData.email });
+
+    if (!user) {
+      const [firstName, ...lastNameParts] = googleData.name.split(' ');
+      const lastName = lastNameParts.join(' ') || '';
+
+      user = new this.userModel({
+        email: googleData.email,
+        firstName,
+        lastName,
+        password: null,
+        googleId: googleData.accessToken,
+        picture: googleData.picture,
+      });
+      await user.save();
+    }
+    return user;
+  }
 }
