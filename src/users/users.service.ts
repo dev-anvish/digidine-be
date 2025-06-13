@@ -9,12 +9,11 @@ import * as bcrypt from 'bcrypt';
 export class UsersService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
-  async create(dto: CreateUserDto): Promise<User> {
+  async create(dto: CreateUserDto): Promise<UserDocument> {
     try {
       const hashedPassword = await bcrypt.hash(dto.password, 10);
       const user = new this.userModel({ ...dto, password: hashedPassword });
       const savedUser = await user.save();
-      console.log('User saved:', savedUser);
       return savedUser;
     } catch (error) {
       console.error('Error saving user:', error);
@@ -22,11 +21,11 @@ export class UsersService {
     }
   }
 
-  async findByEmail(email: string): Promise<User | null> {
+  async findByEmail(email: string): Promise<UserDocument | null> {
     return this.userModel.findOne({ email });
   }
 
-  async findById(id: string): Promise<User | null> {
+  async findById(id: string): Promise<UserDocument | null> {
     return this.userModel.findById(id);
   }
 
