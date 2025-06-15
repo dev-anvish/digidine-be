@@ -6,7 +6,7 @@ import {
 import { UsersService } from 'src/users/users.service';
 import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from 'src/users/dto/create.user.dto';
-import { User } from 'src/users/schemas/user.schema';
+import { UserDocument } from 'src/users/schemas/user.schema';
 import { GoogleOauthDto } from 'src/users/dto/google.oauth.dto';
 
 @Injectable()
@@ -37,7 +37,7 @@ export class AuthService {
     return this.usersService.create({ ...dto });
   }
 
-  async googleOauthSignUp(googleData: GoogleOauthDto): Promise<User> {
+  async googleOauthSignUp(googleData: GoogleOauthDto): Promise<UserDocument> {
     return await this.usersService.findOrCreateGoogleUser(googleData);
   }
 }

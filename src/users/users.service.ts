@@ -34,7 +34,7 @@ export class UsersService {
     name: string;
     picture: string;
     accessToken: string;
-  }): Promise<User> {
+  }): Promise<UserDocument> {
     let user = await this.userModel.findOne({ email: googleData.email });
 
     if (!user) {
