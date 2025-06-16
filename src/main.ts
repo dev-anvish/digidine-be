@@ -6,7 +6,10 @@ import * as passport from 'passport';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('/api');
-  app.enableCors();
+  app.enableCors({
+    origin: ['http://localhost:3000', 'https://digidine-business.vercel.app/'],
+    credentials: true,
+  });
   app.use(
     session({
       secret: process.env.SESSION_SECRET!,
