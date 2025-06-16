@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto } from 'src/users/dto/create.user.dto';
 import { AuthService } from './auth.service';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { AuthPayloadDto } from 'src/users/dto/auth.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { GoogleOauthDto } from 'src/users/dto/google.oauth.dto';
@@ -85,5 +85,17 @@ export class AuthController {
       });
     });
     return req.user;
+  }
+
+  @Get('logout')
+  logOut(@Req() req: Request, @Res() res: Response) {
+    req.session.destroy((err) => {
+      if (err) {
+        return { isSuccess: false, message: 'Session destruction failed' };
+      }
+      res.clearCookie('connect.sid');
+      return { isSuccess: false, message: 'Session destruction failed' };
+    });
+    return;
   }
 }
