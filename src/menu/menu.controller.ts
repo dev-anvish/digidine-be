@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Req,
+  UseGuards,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { UpsertMenuItemDto } from './dto/menu.dto';
 import { MenuService } from './menu.service';
@@ -25,5 +34,10 @@ export class MenuController {
     const businessId = req.session.user?.businessId;
     const menuItems = await this.menuService.listMenuItems(businessId);
     return { isSuccess: true, menuItems };
+  }
+  @Delete('delete/:menuId')
+  @UseGuards(SessionBusinessIdGuard)
+  async deleteMenu(@Param('menuId') menuId: string) {
+    return await this.menuService.deleteMenuItems(menuId);
   }
 }
