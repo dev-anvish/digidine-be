@@ -23,7 +23,7 @@ export class MenuController {
   }
 
   @Post('addEdit')
-  @UseGuards(SessionBusinessIdGuard)
+  // @UseGuards(SessionBusinessIdGuard)
   async EditUpdateMenuItem(
     @Body() dto: UpsertMenuItemDto,
     @Req() req: Request,
@@ -35,7 +35,7 @@ export class MenuController {
   }
 
   @Post('list')
-  @UseGuards(SessionBusinessIdGuard)
+  // @UseGuards(SessionBusinessIdGuard)
   async listMenu(@Req() req: Request, @Body() dto: any) {
     console.log({ dto });
     const businessId =
@@ -44,7 +44,7 @@ export class MenuController {
     return { isSuccess: true, menuItems };
   }
   @Delete('delete/:menuId')
-  @UseGuards(SessionBusinessIdGuard)
+  // @UseGuards(SessionBusinessIdGuard)
   async deleteMenu(@Param('menuId') menuId: string) {
     return await this.menuService.deleteMenuItems(menuId);
   }
