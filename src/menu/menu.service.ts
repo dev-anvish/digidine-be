@@ -16,7 +16,7 @@ export class MenuService {
 
   async EditUpdateMenuItem(
     dto: UpsertMenuItemDto,
-    businessId?: Types.ObjectId,
+    businessId?: Types.ObjectId | string,
   ) {
     if (dto.menuId && businessId) {
       const updated = await this.menuModel.findOneAndUpdate(
@@ -35,7 +35,7 @@ export class MenuService {
     return created.save();
   }
 
-  async listMenuItems(businessId?: Types.ObjectId) {
+  async listMenuItems(businessId?: Types.ObjectId | string) {
     return this.menuModel.find({ businessId }).lean();
   }
 
@@ -54,7 +54,7 @@ export class MenuService {
       console.log(`✅ Menu item ${menuId} deleted successfully`);
 
       return {
-        success: true,
+        isSuccess: true,
         message: `Menu item ${menuId} deleted`,
       };
     } catch (err) {

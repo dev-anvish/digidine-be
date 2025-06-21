@@ -17,21 +17,29 @@ import { SessionBusinessIdGuard } from '../auth/guards/session-business-id.guard
 export class MenuController {
   constructor(private readonly menuService: MenuService) {}
 
+  @Get()
+  me() {
+    return 'hello';
+  }
+
   @Post('addEdit')
   @UseGuards(SessionBusinessIdGuard)
   async EditUpdateMenuItem(
     @Body() dto: UpsertMenuItemDto,
     @Req() req: Request,
   ) {
-    const businessId = req.session.user?.businessId;
+    const businessId =
+      req.session.user?.businessId || '685195eb2aa1229d53a5744d';
     const menuItem = await this.menuService.EditUpdateMenuItem(dto, businessId);
     return { isSuccess: true, menuItem };
   }
 
-  @Get('list')
+  @Post('list')
   @UseGuards(SessionBusinessIdGuard)
-  async listMenu(@Req() req: Request) {
-    const businessId = req.session.user?.businessId;
+  async listMenu(@Req() req: Request, @Body() dto: any) {
+    console.log({ dto });
+    const businessId =
+      req.session.user?.businessId || '685195eb2aa1229d53a5744d';
     const menuItems = await this.menuService.listMenuItems(businessId);
     return { isSuccess: true, menuItems };
   }

@@ -7,7 +7,11 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('/api');
   app.enableCors({
-    origin: ['http://localhost:3000', 'https://digidine-business.vercel.app/'],
+    origin: [
+      'http://localhost:3000',
+      'https://digidine-business.vercel.app',
+      'http://192.168.63.71:3000',
+    ],
     credentials: true,
   });
   app.use(
@@ -26,5 +30,6 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
   await app.listen(process.env.PORT ?? 3000);
+  console.log(`Application is running on: ${process.env.PORT ?? 3000}`);
 }
 bootstrap();
