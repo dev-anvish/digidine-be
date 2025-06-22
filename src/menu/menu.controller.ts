@@ -37,6 +37,7 @@ export class MenuController {
   @Post('list')
   @UseGuards(SessionBusinessIdGuard)
   async listMenu(@Req() req: Request, @Body() dto: any) {
+    console.log("req",req)
     console.log({ dto });
     const businessId =
       req.session.user?.businessId || '685195eb2aa1229d53a5744d';
