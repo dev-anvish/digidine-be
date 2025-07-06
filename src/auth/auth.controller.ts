@@ -22,7 +22,13 @@ export class AuthController {
 
   @Post('signup')
   async signup(@Body() dto: CreateUserDto, @Req() req: Request) {
-    const user = await this.authService.registerUser(dto);
+    const data = await this.authService.registerUser(dto);
+    return { isSuccess: true, data };
+  }
+
+  @Post('verify-otp')
+  async verifyOtp(@Body() dto: CreateUserDto, @Req() req: Request) {
+    const user = await this.authService.verifyOtp(dto);
     req.session.user = {
       email: user.email,
       businessId: user._id,

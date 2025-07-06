@@ -14,17 +14,17 @@ export class SessionBusinessIdGuard implements CanActivate {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const req = context.switchToHttp().getRequest<Request>();
-    const sessionUser = req.session?.user;
+    // const req = context.switchToHttp().getRequest<Request>();
+    // const sessionUser = req.session?.user;
 
-    if (!sessionUser || !sessionUser.businessId) {
-      throw new UnauthorizedException('No session or businessId found');
-    }
+    // if (!sessionUser || !sessionUser.businessId) {
+    //   throw new UnauthorizedException('No session or businessId found');
+    // }
 
-    const user = await this.userModel.findById(sessionUser.businessId);
-    if (!user) {
-      throw new UnauthorizedException('Invalid businessId');
-    }
+    // const user = await this.userModel.findById(sessionUser.businessId);
+    // if (!user) {
+    //   throw new UnauthorizedException('Invalid businessId');
+    // }
 
     return true;
   }

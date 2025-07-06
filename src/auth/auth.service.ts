@@ -8,10 +8,16 @@ import * as bcrypt from 'bcrypt';
 import { CreateUserDto } from 'src/users/dto/create.user.dto';
 import { UserDocument } from 'src/users/schemas/user.schema';
 import { GoogleOauthDto } from 'src/users/dto/google.oauth.dto';
+import { MailService } from 'src/mail/mail.service';
+
+const otpStore = new Map<string, string>();
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(
+    private readonly usersService: UsersService,
+    private mailService: MailService,
+  ) {}
 
   async validateUser({ email, password }: { email: string; password: string }) {
     const user = await this.usersService.findByEmail(email);
@@ -34,10 +40,27 @@ export class AuthService {
   async registerUser(dto: CreateUserDto) {
     const existing = await this.usersService.findByEmail(dto.email);
     if (existing) throw new BadRequestException('Email already exists');
-    return this.usersService.create({ ...dto });
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+    otpStore.set(dto.email, otp);
+    setTimeout(() => otpStore.delete(dto.email), 5 * 60 * 1000); //5min
+    return await this.mailService.sendOtp(dto.email, otp);
+    //  this.usersService.create({ ...dto });
   }
 
   async googleOauthSignUp(googleData: GoogleOauthDto): Promise<UserDocument> {
     return await this.usersService.findOrCreateGoogleUser(googleData);
+  }
+
+  async verifyOtp(dto: CreateUserDto) {
+    const { otp, ...rest } = dto;
+    const stored = otpStore.get(rest.email);
+    if (!stored) {
+      throw new Error('OTP_EXPIRED');
+    }
+    if (stored !== otp) {
+      throw new Error('Invalid_OTP');
+    }
+    otpStore.delete(rest.email);
+    return this.usersService.create({ ...dto });
   }
 }
