@@ -21,7 +21,10 @@ export class AuthService {
 
   async validateUser({ email, password }: { email: string; password: string }) {
     const user = await this.usersService.findByEmail(email);
-    if (!user || !user.password) {
+    if (!user) {
+      throw new UnauthorizedException("User doesn't exists");
+    }
+    if (!user.password) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
@@ -44,7 +47,6 @@ export class AuthService {
     otpStore.set(dto.email, otp);
     setTimeout(() => otpStore.delete(dto.email), 5 * 60 * 1000); //5min
     return await this.mailService.sendOtp(dto.email, otp);
-    //  this.usersService.create({ ...dto });
   }
 
   async googleOauthSignUp(googleData: GoogleOauthDto): Promise<UserDocument> {
