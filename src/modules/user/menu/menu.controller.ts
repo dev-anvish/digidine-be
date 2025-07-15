@@ -13,7 +13,7 @@ import { UpsertMenuItemDto } from './dto/menu.dto';
 import { MenuService } from './menu.service';
 import { SessionBusinessIdGuard } from '../../../guards/session-business-id.guard';
 
-@Controller('menu')
+@Controller('user/menu')
 export class MenuController {
   constructor(private readonly menuService: MenuService) {}
 

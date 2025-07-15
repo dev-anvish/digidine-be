@@ -15,7 +15,7 @@ import { AuthPayloadDto } from 'src/modules/user/users/dto/auth.dto';
 import { AuthGuard } from '@nestjs/passport';
 import { GoogleOauthDto } from 'src/modules/user/users/dto/google.oauth.dto';
 
-@Controller('auth')
+@Controller('user/auth')
 export class AuthController {
   constructor(private authService: AuthService) {}
 

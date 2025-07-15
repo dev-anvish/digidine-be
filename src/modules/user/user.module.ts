@@ -9,4 +9,4 @@ import { MailModule } from '../../mail/mail.module';
   controllers: [],
   providers: [],
 })
-export class UserAppModule {}
+export class UserModule {}
