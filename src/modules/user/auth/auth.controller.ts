@@ -8,12 +8,12 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { CreateUserDto } from 'src/users/dto/create.user.dto';
+import { CreateUserDto } from 'src/modules/user/users/dto/create.user.dto';
 import { AuthService } from './auth.service';
 import { Request, Response } from 'express';
-import { AuthPayloadDto } from 'src/users/dto/auth.dto';
+import { AuthPayloadDto } from 'src/modules/user/users/dto/auth.dto';
 import { AuthGuard } from '@nestjs/passport';
-import { GoogleOauthDto } from 'src/users/dto/google.oauth.dto';
+import { GoogleOauthDto } from 'src/modules/user/users/dto/google.oauth.dto';
 
 @Controller('auth')
 export class AuthController {

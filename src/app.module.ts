@@ -1,19 +1,28 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './users/users.module';
-import { AuthModule } from './auth/auth.module';
-import { MenuModule } from './menu/menu.module';
-import { MailModule } from './mail/mail.module';
+import { UserAppModule } from './modules/user/user.app.module';
+import { RouterModule } from '@nestjs/core';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.MONGO_URI!),
-    UsersModule,
-    AuthModule,
-    MenuModule,
-    MailModule,
+    UserAppModule,
+    RouterModule.register([
+      // {
+      //   path: 'admin',
+      //   module: AdminModule,
+      // },
+      {
+        path: 'user',
+        module: UserAppModule,
+      },
+      // {
+      //   path: 'public',
+      //   module: PublicModule,
+      // },
+    ]),
   ],
   controllers: [],
   providers: [],

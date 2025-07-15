@@ -3,11 +3,11 @@ import {
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from 'src/modules/user/users/users.service';
 import * as bcrypt from 'bcrypt';
-import { CreateUserDto } from 'src/users/dto/create.user.dto';
-import { UserDocument } from 'src/users/schemas/user.schema';
-import { GoogleOauthDto } from 'src/users/dto/google.oauth.dto';
+import { CreateUserDto } from 'src/modules/user/users/dto/create.user.dto';
+import { UserDocument } from 'src/modules/user/users/schemas/user.schema';
+import { GoogleOauthDto } from 'src/modules/user/users/dto/google.oauth.dto';
 import { MailService } from 'src/mail/mail.service';
 
 const otpStore = new Map<string, string>();

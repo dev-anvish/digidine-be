@@ -11,7 +11,7 @@ import {
 import { Request } from 'express';
 import { UpsertMenuItemDto } from './dto/menu.dto';
 import { MenuService } from './menu.service';
-import { SessionBusinessIdGuard } from '../auth/guards/session-business-id.guard';
+import { SessionBusinessIdGuard } from '../../../guards/session-business-id.guard';
 
 @Controller('menu')
 export class MenuController {
